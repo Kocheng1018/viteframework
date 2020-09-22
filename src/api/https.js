@@ -6,26 +6,21 @@ export default async function (method, url, jsonData=null) {
 			"Access-Control-Allow-Credentials": "true",
     });
     let params = jsonData;
-
     let Init = {
       method: method.toLowerCase(),
       headers: headers,
       body: params
     }
     let myRequest = new Request(url, Init);
-
     let res = await fetch(myRequest);
 
-    if (res.ok) {
-      let req = await res.text();
-      console.log("???" + req);
+    if (res.status === 200) {
+      let req = await res.json();
+      return req;
     } else {
-      let err = await res.text();
-      console.log(err);
+      let err = await res.json();
+      return err;
     }
-
-    return res.text();
-
   }
   catch (e) {
     console.log(e);
